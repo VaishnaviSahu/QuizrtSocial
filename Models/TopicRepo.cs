@@ -10,7 +10,7 @@ using Newtonsoft.Json.Linq;
 using System.IO;
 using System.Net;
 using System.Text;
-using NotificationEngine.Model;
+//using NotificationEngine.Model;
 
 namespace quizartsocial_backend
 {
@@ -116,11 +116,11 @@ namespace quizartsocial_backend
 
         public async Task AddCommentToDBAsync(Comment obj)
         {
-            Notification notification = new Notification();
-            notification.Message = obj.userId+"is commented on your post";
-            notification.TargetUrl = "http://172.23.238.164:5002/api/posts/"+obj.postId;
-            Task<List<string>> Temp  = System.Threading.Tasks.Task<List<string>>.Run(() => GetUsersAsync(obj.postId).Result) ;
-            notification.Users = Temp.Result;
+           // Notification notification = new Notification();
+           // notification.Message = obj.userId+"is commented on your post";
+           // notification.TargetUrl = "http://172.23.238.164:5002/api/posts/"+obj.postId;
+          //  Task<List<string>> Temp  = System.Threading.Tasks.Task<List<string>>.Run(() => GetUsersAsync(obj.postId).Result) ;
+           // notification.Users = Temp.Result;
             await context.Comments.AddAsync(obj);
             await context.SaveChangesAsync();
         }
