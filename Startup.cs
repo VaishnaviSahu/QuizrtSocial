@@ -15,6 +15,8 @@ using quizartsocial_backend;
 using quizartsocial_backend.Models;
 using quizartsocial_backend.Services;
 using Swashbuckle.AspNetCore.Swagger;
+using SocialServer.Consumers;
+
 namespace backEnd
 {
     public class Startup
@@ -50,6 +52,19 @@ namespace backEnd
                 }
             );
 
+            var connString = Environment.GetEnvironmentVariable("SQLSERVER_HOST") ?? "Server=localhost\\SQLEXPRESS;Database=QuizRTSocialDb;Trusted_Connection=True;";
+            
+            services.AddDbContext<SocialContext>(options => options.UseSqlServer(connString));
+            
+            Console.WriteLine("dfkadjakjsdkajdajdskasdjaksdsdssssssssss"+connString);
+            
+            services.AddScoped<ITopic, TopicRepo>();
+            
+            // services.AddSingleton<GraphDbConnection>();
+            var dbContextOptionsBuilder = new DbContextOptionsBuilder<SocialContext>();
+            var dbContextOptions = dbContextOptionsBuilder.UseSqlServer(connString).Options;
+            var socialDbContext = new SocialContext(dbContextOptions);
+            services.AddSingleton(s => new TopicConsumer(socialDbContext));
             
             // Register the Swagger generator, defining 1 or more Swagger documents
             services.AddSwaggerGen(c =>
@@ -77,7 +92,7 @@ namespace backEnd
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, TopicConsumer obj)
         {
             if (env.IsDevelopment())
             {

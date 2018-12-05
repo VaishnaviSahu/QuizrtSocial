@@ -7,7 +7,7 @@ namespace quizartsocial_backend.Services
     public class GraphDb : IDisposable
     {
         //var graph
-         public GraphClient graph ;
+        public GraphClient graph;
         public GraphDb(IOptions<Neo4jSettings> options)
         {
             var settings = options.Value;
@@ -27,6 +27,14 @@ namespace quizartsocial_backend.Services
                 Console.WriteLine(e.StackTrace);
                 Console.WriteLine("-------------------------------------------------------------------------");
             }
+
+
+
+
+            // public void Dispose()
+            // {
+            //     graph.Dispose();
+            // }
         }
 
         public void Dispose()

@@ -6,12 +6,15 @@ namespace quizartsocial_backend.Models
     public interface ITopic
     {
         Task AddTopicToDBAsync(Topic obj);
+        Task DelTopicFromDBAsync(string topicName);
+        Task DelTopicByIdAsync(int id);
         Task AddPostToDBAsync(Post obj);
         Task AddUserToDBAsync(User obj);
         Task AddCommentToDBAsync(Comment obj);
-        Task AddComment(Comment obj);
+        // Task AddComment(Comment obj);
         Task<List<Post>> GetPostsAsync(string topicName);
         Task<List<Topic>> FetchTopicsFromDbAsync();
+       // void GetTopicsFromRabbitMQ();
     }
 }
 

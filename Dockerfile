@@ -1,12 +1,12 @@
 FROM microsoft/dotnet:sdk AS build-env
 
-WORKDIR /socialback
+COPY . /socialapp
 
-COPY . .
+WORKDIR /socialapp
 
-CMD  dotnet restore
+RUN ["dotnet", "restore"]
 
-RUN dotnet build
+RUN ["dotnet", "build"]
 
 RUN chmod +x ./entrypoint.sh
 

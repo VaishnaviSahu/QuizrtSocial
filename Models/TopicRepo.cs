@@ -1,24 +1,24 @@
-// using System;
-// using Bogus;
-// using System.Linq;
-// using System.Collections.Generic;
-// using quizartsocial_backend.Models;
-// using Microsoft.EntityFrameworkCore;
-// using System.Net.Http;
-// using System.Threading.Tasks;
-// using Newtonsoft.Json.Linq;
-// using System.IO;
-// using System.Net;
+using System;
+using Bogus;
+using System.Linq;
+using System.Collections.Generic;
+using quizartsocial_backend.Models;
+using Microsoft.EntityFrameworkCore;
+using System.Net.Http;
+using System.Threading.Tasks;
+using Newtonsoft.Json.Linq;
+using System.IO;
+using System.Net;
 
-// namespace quizartsocial_backend
-// {
-//     public class TopicRepo : ITopic
-//     {
-//         SocialContext context;
-//         public TopicRepo(SocialContext _context)
-//         {
-//             this.context = _context;
-//         }
+namespace quizartsocial_backend
+{
+    public class TopicRepo : ITopic
+    {
+        SocialContext context;
+        public TopicRepo(SocialContext _context)
+        {
+            this.context = _context;
+        }
 //         public async Task<List<Post>> GetPostsAsync(string topicName)
 //         {
 //             List<Post> posts = await context.Topics
@@ -48,28 +48,129 @@
 //                 await context.SaveChangesAsync();
 //             }
 //         }
+// using System;
+// using Bogus;
+// using System.Linq;
+// using System.Collections.Generic;
+// using quizartsocial_backend.Models;
+// using Microsoft.EntityFrameworkCore;
+// using System.Net.Http;
+// using System.Threading.Tasks;
+// using Newtonsoft.Json.Linq;
+// using System.IO;
+// using System.Net;
+// using System.Text;
+//using NotificationEngine.Model;
 
-//         public async Task AddPostToDBAsync(Post obj)
+// namespace quizartsocial_backend
+// {
+//     public class TopicRepo : ITopic
+//     {
+//         SocialContext context;
+//         public TopicRepo(SocialContext _context)
 //         {
-//             await context.Posts.AddAsync(obj);
-//             await context.SaveChangesAsync();
+//             this.context = _context;
 //         }
+        public async Task<List<Post>> GetPostsAsync(string topicName)
+        {
+            List<Post> posts = await context.Topics
+                               .Where(t => t.topicName == topicName)
+                               .Include("posts").SelectMany(s => s.posts)
+                               .Include("comments")
+                               .ToListAsync();
+            return posts;
+        }
+        // public void GetTopicsFromRabbitMQ()
+        // {
+        //     var factory = new ConnectionFactory() { HostName = "192.168.176.4", UserName = "rabbitmq", Password = "rabbitmq" };
+        //     using (var connection = factory.CreateConnection())
+        //     using (var channel = connection.CreateModel())
+        //     {
+        //         channel.QueueDeclare(queue: "Topic", durable: false, exclusive: false, autoDelete: false, arguments: null);
 
-//         public async Task AddUserToDBAsync(User obj)
-//         {
-//             if(context.Users.FirstOrDefault(n => n.userId == obj.userId) == null)
-//             {
-//                 await context.Users.AddAsync(obj);
-//                 await context.SaveChangesAsync();
-//             }
-//         }
+        //         var consumer = new EventingBasicConsumer(channel);
+        //         consumer.Received += (model, ea) =>
+        //         {
+        //             var body = ea.Body;
+        //             var message = Encoding.UTF8.GetString(body);
+        //             Console.WriteLine(" [x] Received {0}", message);
+        //         };
+        //         channel.BasicConsume(queue: "Topic", autoAck: true, consumer: consumer);
 
-//         public async Task AddCommentToDBAsync(Comment obj)
-//         {
-//             await context.Comments.AddAsync(obj);
-//             await context.SaveChangesAsync();
-//         }
-//     }
+        //         Console.WriteLine(" Press [enter] to exit.");
+        //         Console.ReadLine();
+        //     }
+        // }
+        public async Task<List<Topic>> FetchTopicsFromDbAsync()
+        {
+            // Topic test1 = new Topic();
+            // Topic test2 = new Topic();
+            // test1.topicName = "book";
+            // test1.topicImage = "sad";
+            // await AddTopicToDBAsync(test1);
+            // await AddTopicToDBAsync(test2);
+            List<Topic> res = await context.Topics.ToListAsync();
+            return res;
+        }
+
+        public async Task AddTopicToDBAsync(Topic obj)
+        {
+            Console.WriteLine("---------{0}----------",obj.topicName);
+            if (context.Topics.FirstOrDefault(n => n.topicName == obj.topicName) == null)
+            {
+                Console.WriteLine("rabbit -topic getting inserted---",obj.topicName);
+                await context.Topics.AddAsync(obj);
+                await context.SaveChangesAsync();
+            }
+        }
+        public async Task DelTopicFromDBAsync(string topicName)
+        {
+            Console.WriteLine("-----------------entered--------------");
+            var topic = await context.Topics.FirstOrDefaultAsync(s => s.topicName == topicName);
+            if(topic != null)
+            {
+                Console.WriteLine("-----------------name----------------"+topic.topicName);
+                context.Topics.Remove(topic);   
+                Console.WriteLine("-----------removed------------");
+            }
+            await context.SaveChangesAsync();
+        }
+
+        public async Task DelTopicByIdAsync(int id)
+        {
+            var  topic = await context.Topics.FirstOrDefaultAsync(s => s.topicId == id);
+            if(topic != null)
+            {
+                Console.WriteLine("-----------------name----------------"+topic.topicName);
+                context.Topics.Remove(topic);   
+                Console.WriteLine("-----------removed------------");
+            }
+            await context.SaveChangesAsync();
+        }
+
+
+        public async Task AddPostToDBAsync(Post obj)
+        {
+            await context.Posts.AddAsync(obj);
+            await context.SaveChangesAsync();
+        }
+
+        public async Task AddUserToDBAsync(User obj)
+        {
+            if(context.Users.FirstOrDefault(n => n.userId == obj.userId) == null)
+            {
+                await context.Users.AddAsync(obj);
+                await context.SaveChangesAsync();
+            }
+        }
+
+        public async Task AddCommentToDBAsync(Comment obj)
+        {
+            await context.Comments.AddAsync(obj);
+            await context.SaveChangesAsync();
+        }
+    }
+}
 // }
 
 // /*

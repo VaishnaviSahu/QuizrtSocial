@@ -1,30 +1,40 @@
+version: "3.5"
 services:
-  prateek-db:
+  quizrt-social-db:
     environment:
       ACCEPT_EULA: "Y"
       SA_PASSWORD: Your_password123
     image: microsoft/mssql-server-linux
-    container_name: prateek-db
     volumes:
       - ./data/mssql:/var/opt/mssql
     ports:
       - "1433"
-  prateek-socialback:
+    networks:
+      - quizrt-social-server-network
+  quizrt-social-server:
     build: .
-    container_name: prateek-socialback
+    labels: 
+      SERVICE_5000_NAME: SocialServer
     environment:
-      SQLSERVER_HOST: Server=prateek-db;User=sa;Password=Your_password123
+      SQLSERVER_HOST: Server=quizrt-social-db;User=sa;Password=Your_password123
     links:
-      - prateek-db
+      - quizrt-social-db
     ports:
-      - "8089:5000"
+      - "5000"
+    networks:
+      - quizrt-social-server-network
   neo4j:
     image: neo4j:latest
     ports:
-      - "17474:7474"
-      - "17687:7687"
+      - "7474"
+      - "7687"
+    networks: 
+      - quizrt-social-server-network
     environment:
       - NEO4J_AUTH=neo4j/qwertyuiop
       - NEO4J_dbms_connector_http_listen__address=:7474
       - NEO4J_dbms_connector_bolt_listen__address=:7687
-version: "3"
+networks:
+  quizrt-social-server-network:
+    name: quizrt-network
+    external: true

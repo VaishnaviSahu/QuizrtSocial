@@ -12,6 +12,7 @@
     <PackageReference Include="Bogus" Version="24.3.0" />
     <PackageReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="neo4jclient" Version="3.0.1.26" />
+    <PackageReference Include="RabbitMQ.Client" Version="5.1.0" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="3.0.0" />
   </ItemGroup>
 
