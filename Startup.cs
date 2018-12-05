@@ -13,6 +13,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using quizartsocial_backend;
 using quizartsocial_backend.Models;
+using quizartsocial_backend.Services;
 using Swashbuckle.AspNetCore.Swagger;
 namespace backEnd
 {
@@ -30,11 +31,24 @@ namespace backEnd
         {
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
            // services.AddDbContext<efmodel>();
-            var connString = Environment.GetEnvironmentVariable("SQLSERVER_HOST") ?? "Server=localhost\\SQLEXPRESS;Database=QuizRTSocialDb;Trusted_Connection=True;";
-            services.AddDbContext<SocialContext>(options => options.UseSqlServer(connString));
-            Console.WriteLine("dfkadjakjsdkajdajdskasdjaksdsdssssssssss"+connString);
-            services.AddScoped<ITopic, TopicRepo>();
-            services.AddSingleton<GraphDbConnection>();
+           // var connString = Environment.GetEnvironmentVariable("SQLSERVER_HOST") ?? "Server=localhost\\SQLEXPRESS;Database=QuizRTSocialDb;Trusted_Connection=True;";
+          //  services.AddDbContext<SocialContext>(options => options.UseSqlServer(connString));
+          //  Console.WriteLine("dfkadjakjsdkajdajdskasdjaksdsdssssssssss"+connString);
+         //   services.AddScoped<ITopic, TopicRepo>();
+            services.AddSingleton<GraphDb>();
+            services.Configure<Neo4jSettings>(
+                options =>
+                {
+                    options.ConnectionString = Configuration.GetSection("Neo4j:ConnectionString").Value;
+                    options.ContainerConnectionString = Configuration.GetSection("Neo4j:ContainerConnectionString").Value;
+                    options.IsDockerized = Configuration["DOTNET_RUNNING_IN_CONTAINER"] != null;
+                    options.Username = Configuration.GetSection("Neo4j:Username").Value;
+                    options.Password = Configuration.GetSection("Neo4j:Password").Value;
+                    Console.WriteLine("-------------------------------------------------------");
+                    Console.WriteLine(options.ConnectionString);
+                    Console.WriteLine("-------------------------------------------------------");
+                }
+            );
 
             
             // Register the Swagger generator, defining 1 or more Swagger documents

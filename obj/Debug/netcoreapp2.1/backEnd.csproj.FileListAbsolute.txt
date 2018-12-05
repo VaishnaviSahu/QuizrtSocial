@@ -40,3 +40,17 @@ C:\Users\Administrator\Desktop\quizrt-social-server\obj\Debug\netcoreapp2.1\back
 C:\Users\Administrator\Desktop\quizrt-social-server\obj\Debug\netcoreapp2.1\backEnd.RazorTargetAssemblyInfo.cache
 C:\Users\Administrator\Desktop\quizrt-social-server\obj\Debug\netcoreapp2.1\backEnd.dll
 C:\Users\Administrator\Desktop\quizrt-social-server\obj\Debug\netcoreapp2.1\backEnd.pdb
+C:\Users\Administrator\Desktop\qwerty\quizrt-social-server\bin\Debug\netcoreapp2.1\backEnd.deps.json
+C:\Users\Administrator\Desktop\qwerty\quizrt-social-server\bin\Debug\netcoreapp2.1\backEnd.runtimeconfig.json
+C:\Users\Administrator\Desktop\qwerty\quizrt-social-server\bin\Debug\netcoreapp2.1\backEnd.runtimeconfig.dev.json
+C:\Users\Administrator\Desktop\qwerty\quizrt-social-server\bin\Debug\netcoreapp2.1\backEnd.dll
+C:\Users\Administrator\Desktop\qwerty\quizrt-social-server\bin\Debug\netcoreapp2.1\backEnd.pdb
+C:\Users\Administrator\Desktop\qwerty\quizrt-social-server\obj\Debug\netcoreapp2.1\backEnd.csprojAssemblyReference.cache
+C:\Users\Administrator\Desktop\qwerty\quizrt-social-server\obj\Debug\netcoreapp2.1\backEnd.csproj.CoreCompileInputs.cache
+C:\Users\Administrator\Desktop\qwerty\quizrt-social-server\obj\Debug\netcoreapp2.1\backEnd.RazorAssemblyInfo.cache
+C:\Users\Administrator\Desktop\qwerty\quizrt-social-server\obj\Debug\netcoreapp2.1\backEnd.RazorAssemblyInfo.cs
+C:\Users\Administrator\Desktop\qwerty\quizrt-social-server\obj\Debug\netcoreapp2.1\backEnd.AssemblyInfoInputs.cache
+C:\Users\Administrator\Desktop\qwerty\quizrt-social-server\obj\Debug\netcoreapp2.1\backEnd.AssemblyInfo.cs
+C:\Users\Administrator\Desktop\qwerty\quizrt-social-server\obj\Debug\netcoreapp2.1\backEnd.RazorTargetAssemblyInfo.cache
+C:\Users\Administrator\Desktop\qwerty\quizrt-social-server\obj\Debug\netcoreapp2.1\backEnd.dll
+C:\Users\Administrator\Desktop\qwerty\quizrt-social-server\obj\Debug\netcoreapp2.1\backEnd.pdb

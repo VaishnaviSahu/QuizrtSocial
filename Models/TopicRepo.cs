@@ -1,103 +1,103 @@
-using System;
-using Bogus;
-using System.Linq;
-using System.Collections.Generic;
-using quizartsocial_backend.Models;
-using Microsoft.EntityFrameworkCore;
-using System.Net.Http;
-using System.Threading.Tasks;
-using Newtonsoft.Json.Linq;
-using System.IO;
-using System.Net;
+// using System;
+// using Bogus;
+// using System.Linq;
+// using System.Collections.Generic;
+// using quizartsocial_backend.Models;
+// using Microsoft.EntityFrameworkCore;
+// using System.Net.Http;
+// using System.Threading.Tasks;
+// using Newtonsoft.Json.Linq;
+// using System.IO;
+// using System.Net;
 
-namespace quizartsocial_backend
-{
-    public class TopicRepo : ITopic
-    {
-        SocialContext context;
-        public TopicRepo(SocialContext _context)
-        {
-            this.context = _context;
-        }
-        public async Task<List<Post>> GetPostsAsync(string topicName)
-        {
-            List<Post> posts = await context.Topics
-                               .Where(t => t.topicName == topicName)
-                               .Include("posts").SelectMany(s => s.posts)
-                               .Include("comments")
-                               .ToListAsync();
-                                return posts;
-        }
-        public async Task<List<Topic>> FetchTopicsFromDbAsync()
-        {
-            Topic test1= new Topic();
-            Topic test2= new Topic();
-            test1.topicName="book";
-            test1.topicImage="sad";
-            await AddTopicToDBAsync(test1);
-            await AddTopicToDBAsync(test2);
-            List<Topic> res = await context.Topics.ToListAsync();
-            return res;
-        }
+// namespace quizartsocial_backend
+// {
+//     public class TopicRepo : ITopic
+//     {
+//         SocialContext context;
+//         public TopicRepo(SocialContext _context)
+//         {
+//             this.context = _context;
+//         }
+//         public async Task<List<Post>> GetPostsAsync(string topicName)
+//         {
+//             List<Post> posts = await context.Topics
+//                                .Where(t => t.topicName == topicName)
+//                                .Include("posts").SelectMany(s => s.posts)
+//                                .Include("comments")
+//                                .ToListAsync();
+//                                 return posts;
+//         }
+//         public async Task<List<Topic>> FetchTopicsFromDbAsync()
+//         {
+//             Topic test1= new Topic();
+//             Topic test2= new Topic();
+//             test1.topicName="book";
+//             test1.topicImage="sad";
+//             await AddTopicToDBAsync(test1);
+//             await AddTopicToDBAsync(test2);
+//             List<Topic> res = await context.Topics.ToListAsync();
+//             return res;
+//         }
 
-        public async Task AddTopicToDBAsync(Topic obj)
-        {
-            if (context.Topics.FirstOrDefault(n => n.topicName == obj.topicName) == null)
-            {
-                await context.Topics.AddAsync(obj);
-                await context.SaveChangesAsync();
-            }
-        }
+//         public async Task AddTopicToDBAsync(Topic obj)
+//         {
+//             if (context.Topics.FirstOrDefault(n => n.topicName == obj.topicName) == null)
+//             {
+//                 await context.Topics.AddAsync(obj);
+//                 await context.SaveChangesAsync();
+//             }
+//         }
 
-        public async Task AddPostToDBAsync(Post obj)
-        {
-            await context.Posts.AddAsync(obj);
-            await context.SaveChangesAsync();
-        }
+//         public async Task AddPostToDBAsync(Post obj)
+//         {
+//             await context.Posts.AddAsync(obj);
+//             await context.SaveChangesAsync();
+//         }
 
-        public async Task AddUserToDBAsync(User obj)
-        {
-            if(context.Users.FirstOrDefault(n => n.userId == obj.userId) == null)
-            {
-                await context.Users.AddAsync(obj);
-                await context.SaveChangesAsync();
-            }
-        }
+//         public async Task AddUserToDBAsync(User obj)
+//         {
+//             if(context.Users.FirstOrDefault(n => n.userId == obj.userId) == null)
+//             {
+//                 await context.Users.AddAsync(obj);
+//                 await context.SaveChangesAsync();
+//             }
+//         }
 
-        public async Task AddCommentToDBAsync(Comment obj)
-        {
-            await context.Comments.AddAsync(obj);
-            await context.SaveChangesAsync();
-        }
-    }
-}
+//         public async Task AddCommentToDBAsync(Comment obj)
+//         {
+//             await context.Comments.AddAsync(obj);
+//             await context.SaveChangesAsync();
+//         }
+//     }
+// }
 
-/*
-        public List<Topic> GetAllTopicImage()
-        {
-             var userFaker = new Faker<Topic>()
-            .RuleFor(t => t.topic_image, f => f.Image.People());
-            .RuleFor(t => t.topic_image, f => f.Internet.Avatar());
-            var users = userFaker.Generate(1);
-            return users;
-        }
+// /*
+//         public List<Topic> GetAllTopicImage()
+//         {
+//              var userFaker = new Faker<Topic>()
+//             .RuleFor(t => t.topic_image, f => f.Image.People());
+//             .RuleFor(t => t.topic_image, f => f.Internet.Avatar());
+//             var users = userFaker.Generate(1);
+//             return users;
+//         }
         
-        public List<Topic> GetAllTopicName()
-        {
-             var userFaker1 = new Faker<Topic>()
-            .RuleFor(t => t.topic_name, f => f.Name.FirstName());
-            var myusers = userFaker1.Generate(1);
-            return myusers;
-        }
+//         public List<Topic> GetAllTopicName()
+//         {
+//              var userFaker1 = new Faker<Topic>()
+//             .RuleFor(t => t.topic_name, f => f.Name.FirstName());
+//             var myusers = userFaker1.Generate(1);
+//             return myusers;
+//         }
 
-        public List<Post> GetAllPost()
-        {
-             var userFaker2 = new Faker<Post>()
-            .RuleFor(t => t.posts, f => f.Lorem.Sentence());
-            var myusers = userFaker2.Generate(1);
-            return myusers;
-        }
-        */
+//         public List<Post> GetAllPost()
+//         {
+//              var userFaker2 = new Faker<Post>()
+//             .RuleFor(t => t.posts, f => f.Lorem.Sentence());
+//             var myusers = userFaker2.Generate(1);
+//             return myusers;
+//         }
+        
 
 // public List<UserC> GetAllUserImage()
 // {
@@ -165,3 +165,4 @@ namespace quizartsocial_backend
 //        .Include("comments")
 //        .ToListAsync();
 // Console.WriteLine(x+"asdadsasddsa");
+// */

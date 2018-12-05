@@ -6,15 +6,17 @@ namespace quizartsocial_backend.Services
 {
     public class GraphDb : IDisposable
     {
-        public IGraphClient graph { get; }
-        public GraphDbConnection()
+        //var graph
+         public GraphClient graph ;
+        public GraphDb(IOptions<Neo4jSettings> options)
         {
+            var settings = options.Value;
             try
             {
                 graph = new GraphClient(
-                        new Uri("172.23.238.164:17474"),
-                        "neo4j",
-                        "qwertyuiop"
+                        new Uri(settings.ConnectionString),
+                        settings.Username,
+                        settings.Password
                     );
                 graph.Connect();
             }

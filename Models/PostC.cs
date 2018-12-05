@@ -9,8 +9,9 @@ namespace quizartsocial_backend.Models
         [Key]
         public int postId{get; set;}
         public string post{get; set;}
-        public List<Comment> comments{get; set;}
+        public int commentId{get; set;}
         public int topicId { get; set; }
+       public string topicName{get; set;}
         public string userId { get; set; }
     }
 }
